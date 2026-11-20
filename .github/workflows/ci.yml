@@ -3,10 +3,12 @@ name: ci
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'k8s/**'
   pull_request:
 
 permissions:
-  contents: read
+  contents: write
   packages: write
 
 env:
@@ -41,3 +43,17 @@ jobs:
           tags: |
             ${{ env.IMAGE }}:${{ github.sha }}
             ${{ env.IMAGE }}:latest
+
+  update-manifest:
+    needs: build-push
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update tag image di k8s/
+        run: |
+          sed -i "s/newTag: .*/newTag: ${{ github.sha }}/" k8s/kustomization.yaml
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git commit -am "deploy webapp ${{ github.sha }}"
+          git pull --rebase
+          git push
