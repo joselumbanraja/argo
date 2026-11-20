@@ -33,7 +33,7 @@ jobs:
 
       - name: Update tag di repo GitOps
         run: |
-          git clone https://x-access-token:${{ secrets.GITOPS_TOKEN }}@github.com/argo/webapp-gitops.git
+          git clone https://x-access-token:${{ secrets.GITOPS_TOKEN }}@github.com/joselumbanraja/argo.git
           cd webapp-gitops
           sed -i "s/newTag: .*/newTag: ${{ github.sha }}/" webapp/kustomization.yaml
           git config user.name "github-actions"
