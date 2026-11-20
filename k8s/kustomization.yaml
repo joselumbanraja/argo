@@ -6,4 +6,4 @@ resources:
   - service.yaml
 images:
   - name: ghcr.io/joselumbanraja/webapp
-    newTag: latest
+    newTag: c501225b08070a3dbe5b4b5730603510fc54bf15
